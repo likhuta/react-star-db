@@ -21,7 +21,7 @@ export default class PeoplePage extends Component {
       selectedPerson: id
     })
   }
-itemId
+
 
   render() {
 
