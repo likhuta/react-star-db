@@ -5,6 +5,7 @@ import SwapiServise from '../../services/swapi-service';
 import ItemList from '../item-list';
 import ErrorBoundry from '../error-boundry';
 import ItemDetails, { Record } from "../item-details/item-details";
+import { PersonList, PlanetList, StarshipList, PersonDetails, PlanetDetails, StarshipDetails } from '../sw-components'
 
 import './app.css';
 
@@ -28,45 +29,11 @@ export default class App extends Component {
     });
   };
 
-
-
   render() {
-    const { getPerson,
-      getStarship,
-      getPersonImage,
-      getStarshipImage,
-      getAllPeople,
-      getAllPlanets } = this.swapiService;
-
-      const personDetails = (
-        <ItemDetails
-          itemId={11}
-          getData={getPerson}
-          getImageUrl={getPersonImage} >
-  
-          <Record field="gender" label="Gender" />
-          <Record field="eyeColor" label="Eye Color" />
-  
-        </ItemDetails>
-      );
-  
-      const starshipDetails = (
-        <ItemDetails
-          itemId={5}
-          getData={getStarship}
-          getImageUrl={getStarshipImage}>
-  
-          <Record field="model" label="Model" />
-          <Record field="length" label="Length" />
-          <Record field="costInCredits" label="Cost" />
-        </ItemDetails>
-      );
-  
 
     const planet = this.state.showRandomPlanet ?
       <RandomPlanet /> :
-      null;
-
+      null; 
 
 
     return (
@@ -74,19 +41,22 @@ export default class App extends Component {
         <div className="stardb-app">
           <Header />
 
-          <ItemList
-            getData={getAllPeople}
-            onItemSelected={() => {}}>
+          <PersonDetails itemId={11} />
+          <PlanetDetails itemId={5} />
 
-            { ({name}) => <span>{name}</span> }
-          </ItemList>
+          <StarshipDetails itemId={9} />
 
-          <ItemList
-            getData={getAllPlanets}
-            onItemSelected={() => {}}>
+          <PersonList>
+            {({ name }) => <span>{name}</span>}
+          </PersonList>
 
-            { ({name}) => <span>{name}</span> }
-          </ItemList>
+          <PlanetList>
+            {({ name }) => <span>{name}</span>}
+          </PlanetList>
+
+          <StarshipList>
+            {({ name }) => <span>{name}</span>}
+          </StarshipList>
 
         </div>
       </ErrorBoundry>
