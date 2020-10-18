@@ -2,57 +2,67 @@ import React, { Component } from 'react';
 import SwapiServise from '../../services/swapi-service';
 import Spinner from "../spinner/index";
 import ErrorButton from "../error-button/error-button";
+import ErrorIndicator from '../error-indicator';
 
-import './person-details.css';
+import './item-details.css';
 
-export default class PersonDetails extends Component {
-  swapiService = new SwapiServise();
+export default class ItemDetails extends Component {
 
   state = {
-    person: null,
-    loading: true
+    item: null,
+    loading: true,
+    image: null,
+    error: false,
   }
 
   componentDidMount() {
-    this.updatePerson();
+    this.updateItem();
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.personId !== prevProps.personId) {
+    if (this.props.itemId !== prevProps.itemId) {
       this.setState({ loading: true })
 
-      this.updatePerson();
+      this.updateItem();
     }
   }
 
-  updatePerson() {
-    const { personId } = this.props;
-    if (!personId) {
+  updateItem() {
+    const { itemId, getData, getImageUrl } = this.props;
+    if (!itemId) {
       return;
     }
 
-    this.swapiService.getPerson(personId).then((person) => {
-      this.setState({ person, loading: false })
+    getData(itemId).then((item) => {
+      this.setState({ 
+        item, 
+        loading: false,
+      image: getImageUrl(item) })
+    }).catch(() => {
+      this.setState({error: true, loading: false})
     })
   }
 
   render() {
 
-
-    // console.log('render person-detail')
-
-    if (!this.state.person) {
+    if (!this.state.item && !this.state.error) {
       return <span>Select a person from a list</span>
     } else if (this.state.loading) {
       return  <Spinner/>
     }
 
-    const { id, name, gender, birthYear, eyeColor } = this.state.person;
+    if (this.state.error) {
+      return (<ErrorIndicator />)
+    }
+
+    const {item, image } = this.state;
+    const { id, name, gender, birthYear, eyeColor } = item;
+
 
     return (
-      <div className="person-details card">
-        <img className="person-image"
-          src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`} />
+      <div className="item-details card">
+        <img className="item-image"
+          src={image} />
 
         <div className="card-body">
           <h4>{name}</h4>
