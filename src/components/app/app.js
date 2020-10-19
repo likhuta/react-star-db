@@ -31,18 +31,19 @@ export default class App extends Component {
   };
 
   render() {
-    const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
 
     return (
       <ErrorBoundry>
         <SwapiServiceProvider value={this.state.swapiService}>
           <div className="stardb-app">
             <Header onServiceChange={this.onServiceChange} />
-            {planet}
+           
+            <RandomPlanet />
 
             <PeoplePage />
             <PlanetPage />
             <StarshipPage />
+
           </div>
         </SwapiServiceProvider>
       </ErrorBoundry>
