@@ -15,7 +15,6 @@ const withChildFunction = (Wrapped, fn) => {
   }
 }
 const renderName = ({name}) => <span>{name}</span>;
-const renderModelAndName = ({name, model}) => <span> {name} ({model})</span>;
 
 const mapPersonMethodsToProps = (swapiService) => {
   return {
@@ -25,12 +24,12 @@ const mapPersonMethodsToProps = (swapiService) => {
 
 const mapPlanetMethodsToProps = (swapiService) => {
   return {
-    getData: swapiService.getAllPeople
+    getData: swapiService.getAllPlanets
   }
 }
 const mapStartshipMethodsToProps = (swapiService) => {
   return {
-    getData: swapiService.getAllPeople
+    getData: swapiService.getAllStarships
   }
 }
 const PersonList = withSwapiService(
