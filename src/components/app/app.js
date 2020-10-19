@@ -17,10 +17,11 @@ import "./app.css";
 // import { PersonDetails } from '../sw-components/person-details';
 
 export default class App extends Component {
-  swapiService = new SwapiServise();
+
   state = {
     showRandomPlanet: true,
     hasError: false,
+    swapiService: new DummySwapiService(),
   };
 
   componentDidCatch() {
@@ -35,14 +36,24 @@ export default class App extends Component {
     });
   };
 
+  onServiceChange = () => {
+    this.setState(({swapiService}) => {
+      const Service = swapiService instanceof SwapiServise ? DummySwapiService : SwapiServise;
+      console.log('switched to', Service.name);
+      return {
+        swapiService: new Service()
+      }
+    })
+  }
+
   render() {
     const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
 
     return (
       <ErrorBoundry>
-        <SwapiServiceProvider value={this.swapiService}>
+        <SwapiServiceProvider value={this.state.swapiService}>
           <div className="stardb-app">
-            <Header />
+            <Header onServiceChange={this.onServiceChange} />
 
             <PersonDetails itemId={11} />
             <PlanetDetails itemId={5} />
