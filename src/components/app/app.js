@@ -9,6 +9,7 @@ import ErrorBoundry from "../error-boundry";
 import { SwapiServiceProvider } from "../swapi-service-context";
 import DummySwapiService from "../../services/dummy-swapi-service";
 import { PeoplePage, StarshipPage, PlanetPage } from "../pages";
+import StarshipDetails from '../sw-components/starship-details'
 import "./app.css";
 
 export default class App extends Component {
@@ -44,10 +45,15 @@ export default class App extends Component {
            
             <RandomPlanet />
 
+            <Route path="/" exact render={() => <h2>Welcome</h2>} />
+
             <Route path="/people" component={PeoplePage} />
             <Route path="/planets" component={PlanetPage} />
-            <Route path="/starships" component={StarshipPage} />
-
+            <Route path="/starships" exact component={StarshipPage} />
+            <Route path="/starships/:id" 
+              render={({match}) => {
+                return <StarshipDetails itemId={match.params.id} />
+              } } />
           </div>
 
           </Router>
